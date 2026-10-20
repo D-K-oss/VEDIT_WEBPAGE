@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0E0E10">
+  <meta name="description" content="VEDIT is a free, open-source (MIT), minimalist video editor written in pure Rust. Multi-track timeline, live composited preview, transitions, keyframes, audio mixer, .cube LUT color grading and a full ffmpeg export pipeline.">
+  <title>VEDIT — a minimalist video editor in pure Rust</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='6'%20fill='%230E0E10'/%3E%3Cpath%20d='M9%209l7%2014%207-14'%20stroke='%23E0B458'%20stroke-width='3'%20fill='none'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" id="top">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top" aria-label="VEDIT — back to top">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <rect width="32" height="32" rx="6" fill="#1E1E21"/>
+        <path d="M9 9l7 14 7-14" fill="none" stroke="#E0B458" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="brand-name">VEDIT</span>
+      <span class="brand-ver mono">v0.2.0</span>
+    </a>
+    <nav class="site-nav" aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="#features"  data-nav="features">Features</a></li>
+        <li><a href="#timeline"  data-nav="timeline">Timeline</a></li>
+        <li><a href="#changelog" data-nav="changelog">Changelog</a></li>
+        <li><a href="#download"  data-nav="download">Download</a></li>
+        <li><a href="#faq"       data-nav="faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-accent btn-sm header-cta" href="#download">Get VEDIT</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow mono"><span class="pill">v0.2.0</span> Free &amp; open source · MIT</p>
+        <h1 id="hero-title">Cut. Grade.<br>Deliver.</h1>
+        <p class="hero-sub">A minimalist video editor in pure Rust. A multi-track timeline,
+          a live composited preview and a full ffmpeg export pipeline — in a clean,
+          dark interface that starts instantly.</p>
+        <div class="hero-cta">
+          <a class="btn btn-accent" href="#download">Download VEDIT</a>
+          <a class="btn btn-ghost" href="#features">See features</a>
+        </div>
+        <p class="hero-note mono">Windows installer &amp; portable zip — built automatically for every release.</p>
+      </div>
+
+      <!-- Editor mockup, built entirely with CSS (decorative) -->
+      <div class="hero-mock" aria-hidden="true" data-reveal>
+        <div class="mock-window">
+          <div class="mock-topbar">
+            <span class="mock-logo">VEDIT <b>0.2.0</b></span>
+            <span class="mock-menu">New&ensp;Open&ensp;Save&ensp;Import Media&hellip;</span>
+            <span class="mock-export">Export</span>
+          </div>
+          <div class="mock-main">
+            <div class="mock-media">
+              <span class="mock-label">Media</span>
+              <div class="mock-asset"><i class="thumb thumb-video"></i>intro.mp4</div>
+              <div class="mock-asset"><i class="thumb thumb-image"></i>city.png</div>
+              <div class="mock-asset"><i class="thumb thumb-audio"></i>music.wav</div>
+            </div>
+            <div class="mock-stage">
+              <div class="mock-preview"><i class="mock-play"></i></div>
+              <div class="mock-transport mono">
+                <span>|&lt;</span><span>&lt;&lt;</span><i class="tp-play"></i><span>&gt;&gt;</span><span>&gt;|</span>
+                <b class="mock-tc">00:04:12:07</b>
+              </div>
+            </div>
+            <div class="mock-inspector">
+              <span class="mock-label">Inspector</span>
+              <div class="mock-field"><span>Opacity</span><b>100%</b></div>
+              <div class="mock-field"><span>Volume</span><b>0.0 dB</b></div>
+              <div class="mock-field"><span>Speed</span><b>1.00×</b></div>
+              <div class="mock-field"><span>LUT</span><b>film.cube</b></div>
+            </div>
+          </div>
+          <div class="mock-tlbar mono">
+            <span>+ Video</span><span>+ Audio</span>
+            <span class="mock-gap"></span>
+            <span>Snap</span><span>Split</span><span>Delete</span>
+            <span class="mock-gap"></span>
+            <span class="mock-zoom">Zoom<i class="zoom-track"><b></b></i></span>
+          </div>
+          <div class="mock-timeline">
+            <div class="mock-ruler mono"><span>00:00:00</span><span>00:00:10</span><span>00:00:20</span><span>00:00:30</span></div>
+            <div class="mock-lane"><b class="mock-track mono">V2</b>
+              <div class="mock-canvas"><i class="clip clip-title">TITLE — VEDIT</i></div>
+            </div>
+            <div class="mock-lane"><b class="mock-track mono">V1</b>
+              <div class="mock-canvas">
+                <i class="clip clip-video v1a"><u class="thumbs"></u>clip 1</i>
+                <i class="clip clip-video v1b is-selected"><u class="thumbs"></u>clip 2</i>
+                <i class="xfade">×</i>
+              </div>
+            </div>
+            <div class="mock-lane"><b class="mock-track mono">A1</b>
+              <div class="mock-canvas"><i class="clip clip-audio"><u class="wave"></u>music.wav</i></div>
+            </div>
+            <div class="mock-lane"><b class="mock-track mono">A2</b>
+              <div class="mock-canvas"></div>
+            </div>
+            <i class="mock-playhead"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="section" id="features" aria-labelledby="features-title">
+    <div class="wrap">
+      <header class="section-head" data-reveal>
+        <p class="eyebrow mono">Features</p>
+        <h2 id="features-title">Everything you need. Nothing you don&rsquo;t.</h2>
+        <p class="lead">VEDIT keeps the layout professionals know — media, preview, inspector,
+          timeline — and strips away everything else. What remains is fast, native and
+          keyboard-driven.</p>
+      </header>
+
+      <div class="feature-grid">
+        <article class="card" data-reveal>
+          <svg class="feat-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="4" rx="1"/><rect x="6" y="10" width="12" height="4" rx="1"/><rect x="3" y="16" width="15" height="4" rx="1"/></svg>
+          <h3>Multi-track timeline</h3>
+          <p>Unlimited video and audio tracks. Drag clips to move, drag their edges to trim,
+            split at the playhead and let magnetic snapping keep every cut tight.</p>
+        </article>
+
+        <article class="card" data-reveal>
+          <svg class="feat-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9.5 14.5l5-5"/><path d="M7.5 10.5l-2.2 2.2a3.5 3.5 0 0 0 5 5l2.2-2.2"/><path d="M16.5 13.5l2.2-2.2a3.5 3.5 0 0 0-5-5l-2.2 2.2"/></svg>
+          <h3>Linked A/V clips</h3>
+          <p>Drop a video that carries sound and VEDIT creates a linked audio twin on the
+            audio track. Moving, trimming, splitting and deleting stay in sync — both halves, always.</p>
+        </article>
+
+        <article class="card" data-reveal>
+          <svg class="feat-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M9 20h6M12 16v4"/><path d="M10.5 7.5v5l4-2.5z" fill="currentColor" stroke="none"/></svg>
+          <h3>Live composited preview</h3>
+          <p>Every visible layer is composited frame-accurately, with a Full / Half / Quarter
+            quality selector. 4K-safe: the preview is capped at 1920&nbsp;px — exports never are.</p>
+        </article>
+
+        <article class="card" data-reveal>
+          <svg class="feat-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 12h3l2-7 4 14 3-11 2 4h4"/></svg>
+          <h3>Waveforms &amp; thumbnails</h3>
+          <p>Audio clips draw their real waveform and video clips draw a thumbnail filmstrip,
+            right on the clip. You see the edit, not just colored rectangles.</p>
+        </article>
+
+        <article class="card" data-reveal>
+          <svg class="feat-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="6" width="10" height="10" rx="1"/><rect x="11" y="8" width="10" height="10" rx="1" stroke-dasharray="2.5 2.5"/></svg>
+          <h3>Transitions &amp; fades</h3>
+          <p>Overlap two clips for a cross-dissolve, or add a fade in and fade out to any
+            clip — audio included.</p>
+        </article>
+
+        <article class="card" data-reveal>
+          <svg class="feat-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4l7 8-7 8-7-8z"/></svg>
+          <h3>Keyframed opacity &amp; volume</h3>
+          <p>Animate opacity and volume with keyframes and bend the values between them.
+            Slow push-ins and music ducking without leaving the timeline.</p>
+        </article>
+
+        <article class="card" data-reveal>
+          <svg class="feat-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 6h14M12 6v13"/><path d="M9 19h6"/></svg>
+          <h3>Text &amp; title clips</h3>
+          <p>Add text and title clips for lower thirds, titles and cards — styled from the
+            inspector and layered like any other video track.</p>
+        </article>
+
+        <article class="card" data-reveal>
+          <svg class="feat-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 4v6M6 14v6M12 4v10M12 18v2M18 4v2M18 10v10"/><circle cx="6" cy="12" r="2"/><circle cx="12" cy="16" r="2"/><circle cx="18" cy="8" r="2"/></svg>
+          <h3>Audio mixer</h3>
+          <p>Per-track volume, pan, EQ and solo, plus a master volume fader. Mute and lock
+            tracks directly from the timeline header column.</p>
+        </article>
+
+        <article class="card" data-reveal>
+          <svg class="feat-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg>
+          <h3>Color grading with .cube LUTs</h3>
+          <p>Load industry-standard .cube LUTs to grade your footage — the same files you
+            already use in other editors, applied per clip.</p>
+        </article>
+
+        <article class="card" data-reveal>
+          <svg class="feat-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="10" y="10" width="4" height="4"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg>
+          <h3>Hardware-accelerated encoding</h3>
+          <p>Export on the GPU: NVENC (NVIDIA), Quick Sync (Intel) and AMF (AMD) encoders,
+            selectable right in the export dialog.</p>
+        </article>
+
+        <article class="card" data-reveal>
+          <svg class="feat-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 8h13"/><path d="M14 5l3 3-3 3"/><path d="M20 16H7"/><path d="M10 13l-3 3 3 3"/></svg>
+          <h3>Every format, every codec</h3>
+          <p>Import any video, audio or image your ffmpeg can demux. Export H.264, H.265,
+            VP9, AV1, ProRes, FFV1 or GIF — controlled by bitrate or CRF.</p>
+        </article>
+
+        <article class="card" data-reveal>
+          <svg class="feat-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12a8 8 0 1 0 2.3-5.6"/><path d="M4 4v4h4"/><path d="M12 8v4l3 2"/></svg>
+          <h3>Non-destructive by design</h3>
+          <p>A full undo/redo history takes back every trim and move, and a project is one
+            portable .vedit.json file: assets, timeline and settings together.</p>
+        </article>
+      </div>
+
+      <div class="fmt-strip" data-reveal>
+        <div class="fmt-row">
+          <span class="fmt-label mono">Import</span>
+          <ul class="chips mono">
+            <li>MP4</li><li>MKV</li><li>MOV</li><li>AVI</li><li>WebM</li><li>FLV</li><li>WMV</li>
+            <li>MP3</li><li>WAV</li><li>FLAC</li><li>OGG</li><li>PNG</li><li>JPG</li><li>GIF</li>
+            <li class="chip-more">+ anything ffmpeg demuxes</li>
+          </ul>
+        </div>
+        <div class="fmt-row">
+          <span class="fmt-label mono">Export</span>
+          <ul class="chips mono">
+            <li>H.264</li><li>H.265</li><li>VP9</li><li>AV1</li><li>ProRes 422</li><li>FFV1</li><li>GIF</li>
+            <li>AAC</li><li>MP3</li><li>Opus</li><li>Vorbis</li><li>FLAC</li><li>PCM</li>
+            <li class="chip-more">+ MP4 · MKV · MOV · WebM · AVI · WAV containers</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TIMELINE ============ -->
+  <section class="section section-alt" id="timeline" aria-labelledby="timeline-title">
+    <div class="wrap">
+      <header class="section-head" data-reveal>
+        <p class="eyebrow mono">The timeline</p>
+        <h2 id="timeline-title">Where the edit happens</h2>
+        <p class="lead">An unlimited stack of video and audio tracks under a zoomable ruler —
+          driven by the keyboard as much as by the mouse. Video tracks composite over each
+          other; audio tracks mix together.</p>
+      </header>
+
+      <div class="tl-grid">
+        <article class="card tl-card" data-reveal>
+          <h3 class="mono tl-track-id">V2 / V1</h3>
+          <h4>Tracks</h4>
+          <p>Stack video layers upward — higher tracks composite over lower ones — and mix as
+            many audio tracks as the edit needs. Every track header carries mute, lock and
+            delete controls, and holds an unlimited number of clips.</p>
+        </article>
+        <article class="card tl-card" data-reveal>
+          <h3 class="mono tl-track-id">S</h3>
+          <h4>Clips</h4>
+          <p>Drag to move — across tracks, too. Drag an edge to trim. Press <b>S</b> to split
+            at the playhead. Snapping is magnetic, so clips lock to each other and to the
+            playhead, and the ruler zooms from seconds down to frames.</p>
+        </article>
+        <article class="card tl-card" data-reveal>
+          <h3 class="mono tl-track-id">A1 / A2</h3>
+          <h4>Linked A/V</h4>
+          <p>Video with sound arrives as a linked pair: the picture lands on a video track,
+            its audio twin on the first free audio track. They move, trim, split and delete
+            together, so picture and sound never drift out of sync.</p>
+        </article>
+      </div>
+
+      <p class="tl-foot" data-reveal>Scrub by dragging the ruler or an empty lane, press
+        <b>Space</b> to play, and step frame by frame with the arrow keys. The full map is
+        in the <a href="#shortcuts">shortcut table</a>.</p>
+    </div>
+  </section>
+
+  <!-- ============ CHANGELOG ============ -->
+  <section class="section" id="changelog" aria-labelledby="changelog-title">
+    <div class="wrap">
+      <header class="section-head" data-reveal>
+        <p class="eyebrow mono">Versions</p>
+        <h2 id="changelog-title">Changelog</h2>
+        <p class="lead">v0.2.0 turns the v0.1.0 core into a complete small NLE: transitions,
+          keyframes, titles, a mixer, LUTs and hardware-accelerated exports.</p>
+      </header>
+
+      <div class="release-grid">
+        <article class="release" data-reveal>
+          <header class="release-head">
+            <h3 class="mono">v0.2.0</h3>
+            <span class="tag tag-latest">Latest</span>
+            <span class="release-date mono">2025</span>
+          </header>
+          <ul class="release-list">
+            <li><span class="tag tag-new mono">New</span>Waveform &amp; thumbnail strips on timeline clips</li>
+            <li><span class="tag tag-new mono">New</span>Transitions — cross-dissolve on overlapping clips, fade in / fade out</li>
+            <li><span class="tag tag-new mono">New</span>Undo / redo history for every edit</li>
+            <li><span class="tag tag-new mono">New</span>Keyframed opacity &amp; volume</li>
+            <li><span class="tag tag-new mono">New</span>Text &amp; title clips</li>
+            <li><span class="tag tag-new mono">New</span>Hardware-accelerated encoding — NVENC, Quick Sync, AMF</li>
+            <li><span class="tag tag-new mono">New</span>Audio mixer — per-track volume, pan, EQ and solo, plus master volume</li>
+            <li><span class="tag tag-new mono">New</span>Color grading with .cube LUT support</li>
+            <li class="release-plain">Refined v0.1.0 core — multi-track timeline with drag / trim / split / snap,
+              linked A/V clips and the live composited preview with its Full / Half / Quarter quality selector.</li>
+          </ul>
+        </article>
+
+        <article class="release release-old" data-reveal>
+          <header class="release-head">
+            <h3 class="mono">v0.1.0</h3>
+            <span class="release-date mono">2025</span>
+          </header>
+          <ul class="release-list release-list-plain">
+            <li>Initial release</li>
+            <li>Multi-track timeline — move, trim, split, magnetic snapping, zoomable ruler</li>
+            <li>Linked A/V clips with per-track mute / lock / delete headers</li>
+            <li>Media library with thumbnails and drag-to-timeline</li>
+            <li>Live composited preview with quality selector</li>
+            <li>Clip properties — speed (0.25×–4×), opacity, volume, mute</li>
+            <li>Full ffmpeg export — every container and codec, bitrate or CRF, export presets</li>
+            <li>Portable .vedit.json projects</li>
+            <li>Windows installer (Inno Setup) + portable build, with a GitHub Actions release workflow</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SHORTCUTS ============ -->
+  <section class="section section-alt" id="shortcuts" aria-labelledby="shortcuts-title">
+    <div class="wrap wrap-narrow">
+      <header class="section-head" data-reveal>
+        <p class="eyebrow mono">Keyboard</p>
+        <h2 id="shortcuts-title">Keyboard shortcuts</h2>
+        <p class="lead">VEDIT is built to be driven from the keyboard. The essentials fit on
+          one hand; the rest is one Ctrl away.</p>
+      </header>
+
+      <div class="table-wrap" data-reveal>
+        <table class="shortcut-table">
+          <caption class="visually-hidden">VEDIT keyboard shortcuts and their actions</caption>
+          <thead>
+            <tr><th scope="col">Key</th><th scope="col">Action</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><kbd>Space</kbd></td><td>Play / pause</td></tr>
+            <tr><td><kbd>S</kbd></td><td>Split clip(s) at the playhead</td></tr>
+            <tr><td><kbd>Del</kbd> / <kbd>Backspace</kbd></td><td>Delete the selected clip</td></tr>
+            <tr><td><kbd>Ctrl</kbd>+<kbd>Z</kbd></td><td>Undo</td></tr>
+            <tr><td><kbd>Ctrl</kbd>+<kbd>Y</kbd></td><td>Redo</td></tr>
+            <tr><td><kbd>←</kbd> / <kbd>→</kbd></td><td>Step one frame (<kbd>Shift</kbd> = 10 frames)</td></tr>
+            <tr><td><kbd>Home</kbd> / <kbd>End</kbd></td><td>Jump to start / end</td></tr>
+            <tr><td><kbd>Ctrl</kbd>+<kbd>S</kbd></td><td>Save project</td></tr>
+            <tr><td><kbd>Ctrl</kbd>+<kbd>E</kbd></td><td>Export</td></tr>
+            <tr><td><kbd>Ctrl</kbd>+<kbd>O</kbd></td><td>Open project</td></tr>
+            <tr><td><kbd>Ctrl</kbd>+<kbd>I</kbd></td><td>Import media</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DOWNLOAD ============ -->
+  <section class="section" id="download" aria-labelledby="download-title">
+    <div class="wrap">
+      <header class="section-head" data-reveal>
+        <p class="eyebrow mono">Download</p>
+        <h2 id="download-title">Get VEDIT v0.2.0</h2>
+        <p class="lead">Free and MIT-licensed. No store, no account, no telemetry — just the editor.</p>
+      </header>
+
+      <div class="download-grid">
+        <article class="card dl-card" data-reveal>
+          <h3>Windows installers</h3>
+          <p>Two artifacts ship with every release, built automatically by GitHub Actions:</p>
+          <ul class="dl-list mono">
+            <li><b>VEDIT-Setup-0.2.0.exe</b><span>system installer, ffmpeg bundled</span></li>
+            <li><b>vedit-0.2.0-portable.zip</b><span>unzip and run from anywhere</span></li>
+          </ul>
+          <p class="dl-note">Installers are built in the cloud for every release tag — no local
+            toolchain required. A Linux tar.gz is produced by the same workflow.</p>
+          <a class="btn btn-accent" href="https://github.com/vedit-app/vedit/releases" rel="noopener">Open GitHub Releases</a>
+          <p class="dl-small">Older versions and release notes live on the same page.</p>
+        </article>
+
+        <article class="card dl-card" data-reveal>
+          <h3>Build from source</h3>
+          <p>Any OS with a stable Rust toolchain and ffmpeg + ffprobe on <span class="mono">PATH</span>:</p>
+          <div class="codeblock">
+            <div class="codeblock-head">
+              <span class="mono">shell</span>
+              <button class="copy-btn mono" type="button" data-copy="build-commands" aria-label="Copy build commands to clipboard">
+                <span class="copy-label" aria-live="polite">Copy</span>
+              </button>
+            </div>
+            <pre id="build-commands"><code>git clone https://github.com/vedit-app/vedit.git
+cd vedit
+cargo run --release -p vedit-gui</code></pre>
+          </div>
+          <p class="dl-small">Windows builds additionally need the MSVC C++ Build Tools; Linux needs
+            <span class="mono">libxkbcommon</span>, <span class="mono">libwayland</span> and
+            <span class="mono">libx11</span> dev packages. See the README for the full details.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="section section-alt" id="faq" aria-labelledby="faq-title">
+    <div class="wrap wrap-narrow">
+      <header class="section-head" data-reveal>
+        <p class="eyebrow mono">FAQ</p>
+        <h2 id="faq-title">Questions, answered</h2>
+      </header>
+
+      <div class="faq-list">
+        <details class="faq-item" open data-reveal>
+          <summary>Is VEDIT really free?
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </summary>
+          <div class="faq-body"><p>Yes. VEDIT is MIT-licensed open source: free for personal and
+            commercial use, with no accounts, no telemetry and no watermarks. The complete
+            source lives on GitHub.</p></div>
+        </details>
+
+        <details class="faq-item" data-reveal>
+          <summary>Which platforms does it run on?
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </summary>
+          <div class="faq-body"><p>Windows is the primary target — every release ships an installer
+            (VEDIT-Setup.exe) and a portable zip, built automatically by GitHub Actions. VEDIT also
+            builds from source on Linux and macOS with cargo. Live audio in the preview is enabled
+            on Windows and macOS; Linux previews play video-only, while exports always include
+            audio on every platform.</p></div>
+        </details>
+
+        <details class="faq-item" data-reveal>
+          <summary>Does VEDIT come with ffmpeg?
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </summary>
+          <div class="faq-body"><p>The ffmpeg binaries are not committed to the repository, but you
+            never have to hunt for them: the Windows build script and the release workflow download
+            official builds and place them next to <span class="mono">vedit.exe</span>. At runtime
+            VEDIT finds ffmpeg automatically — next to the executable, in an
+            <span class="mono">ffmpeg/</span> folder, via <span class="mono">VEDIT_FFMPEG_DIR</span>,
+            or on your <span class="mono">PATH</span>.</p></div>
+        </details>
+
+        <details class="faq-item" data-reveal>
+          <summary>What can I import and export?
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </summary>
+          <div class="faq-body"><p>Anything ffmpeg demuxes: MP4, MKV, MOV, AVI, WebM, FLV and more
+            as video; MP3, WAV, AAC, FLAC, OGG and more as audio; PNG, JPG, GIF, WebP, TIFF and
+            more as images. Exports cover MP4, MKV, MOV, WebM, AVI, GIF, WAV, MP3, FLAC, OGG and
+            M4A containers with H.264, H.265, VP9, AV1, ProRes, FFV1, AAC, MP3, Opus and more —
+            controlled by bitrate or CRF.</p></div>
+        </details>
+
+        <details class="faq-item" data-reveal>
+          <summary>What exactly is a .vedit.json project?
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </summary>
+          <div class="faq-body"><p>A VEDIT project is a single JSON file that stores your media
+            references, the full timeline and all settings. It is portable and human-readable —
+            copy it to another machine, keep it in version control, or inspect it with any text
+            editor.</p></div>
+        </details>
+
+        <details class="faq-item" data-reveal>
+          <summary>How do the hardware encoders work?
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </summary>
+          <div class="faq-body"><p>In the export dialog, pick NVENC (NVIDIA GPUs), Quick Sync
+            (Intel) or AMF (AMD) to render on your GPU. If your ffmpeg build lacks a hardware
+            encoder, the software encoders — x264, x265, VP9, AV1 — are always available as a
+            fallback.</p></div>
+        </details>
+
+        <details class="faq-item" data-reveal>
+          <summary>Why so minimalist?
+            <svg class="chev" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </summary>
+          <div class="faq-body"><p>VEDIT keeps the Premiere-style layout — media, preview,
+            inspector, timeline — and strips everything else. No nesting, no workspaces, no panels
+            you never open. It starts instantly, renders fully native with egui, and leaves the
+            heavy media lifting to ffmpeg.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <span class="brand-name">VEDIT</span>
+      <p>A minimalist video editor in pure Rust.</p>
+    </div>
+    <nav aria-label="Footer">
+      <ul class="footer-links mono">
+        <li><a href="https://github.com/vedit-app/vedit" rel="noopener">GitHub</a></li>
+        <li><a href="https://github.com/vedit-app/vedit/releases" rel="noopener">Releases</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#download">Download</a></li>
+        <li><a href="#top">Back to top</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="wrap footer-legal mono">
+    <span>MIT License</span>
+    <span>Built with Rust + egui</span>
+    <span>Rendered by ffmpeg</span>
+    <span>© 2025 VEDIT contributors</span>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
